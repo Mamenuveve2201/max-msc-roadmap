@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="description" content="Max's MSc Roadmap — tracking goals, skills, and GRE prep">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Max's MSc Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0d0d;--surface:#161616;--surface2:#1e1e1e;--border:#2a2a2a;--border2:#333;--text:#f0ede8;--muted:#888;--accent:#c8a96e;--accent2:#e8c98e;--teal:#4ecdc4;--coral:#e8715a;--purple:#9b7fe8;--green:#5cb85c;--font-serif:'DM Serif Display',Georgia,serif;--font-sans:'DM Sans',system-ui,sans-serif;--radius:12px;--radius-sm:8px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:15px;min-height:100vh;line-height:1.6}
+header{padding:28px 24px 0;max-width:680px;margin:0 auto}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.app-name{font-family:var(--font-serif);font-size:28px;color:var(--accent2);line-height:1.1}
+.app-name span{color:var(--muted);font-size:16px;display:block;font-family:var(--font-sans);font-weight:300;margin-top:2px}
+.sync-btn{background:none;border:1px solid var(--border2);color:var(--muted);border-radius:var(--radius-sm);padding:6px 12px;font-size:12px;cursor:pointer;font-family:var(--font-sans);transition:all .2s;white-space:nowrap;margin-top:4px}
+.sync-btn:hover{border-color:var(--accent);color:var(--accent)}
+.sync-status{font-size:11px;color:var(--muted);margin-top:6px}
+.sync-status.ok{color:var(--green)}.sync-status.err{color:var(--coral)}
+.tabs{display:flex;gap:4px;margin:20px 24px 0;max-width:680px;margin-left:auto;margin-right:auto;border-bottom:1px solid var(--border);padding-bottom:0}
+.tab{background:none;border:none;color:var(--muted);font-family:var(--font-sans);font-size:13px;font-weight:500;padding:8px 14px 10px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;border-radius:6px 6px 0 0}
+.tab:hover{color:var(--text)}.tab.active{color:var(--accent2);border-bottom-color:var(--accent)}
+main{max-width:680px;margin:0 auto;padding:20px 24px 100px}
+.panel{display:none}.panel.active{display:block}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-title{font-family:var(--font-serif);font-size:18px;color:var(--accent2)}
+.add-btn{background:var(--accent);color:#0d0d0d;border:none;border-radius:var(--radius-sm);padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-sans);transition:background .15s}
+.add-btn:hover{background:var(--accent2)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;transition:border-color .15s;position:relative}
+.card:hover{border-color:var(--border2)}
+.card-top{display:flex;align-items:flex-start;gap:12px}
+.card-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border2);flex-shrink:0;margin-top:2px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.card-check.done{border-color:var(--green);background:var(--green)}
+.card-check.done::after{content:'✓';font-size:11px;color:#0d0d0d;font-weight:700}
+.card-body{flex:1;min-width:0}
+.card-title{font-size:15px;font-weight:500;color:var(--text);line-height:1.3}
+.card-title.done{text-decoration:line-through;color:var(--muted)}
+.card-meta{font-size:12px;color:var(--muted);margin-top:3px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.tag-teal{background:rgba(78,205,196,.15);color:var(--teal)}
+.tag-coral{background:rgba(232,113,90,.15);color:var(--coral)}
+.tag-purple{background:rgba(155,127,232,.15);color:var(--purple)}
+.tag-gold{background:rgba(200,169,110,.15);color:var(--accent2)}
+.tag-green{background:rgba(92,184,92,.15);color:var(--green)}
+.card-actions{display:flex;gap:6px;flex-shrink:0;margin-top:2px}
+.icon-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:2px 4px;border-radius:4px;transition:color .15s}
+.icon-btn:hover{color:var(--text)}.icon-btn.del:hover{color:var(--coral)}
+.card-notes{font-size:12px;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);line-height:1.5;white-space:pre-wrap}
+.progress-wrap{margin-bottom:20px}
+.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px}
+.progress-bar{background:var(--surface2);border-radius:20px;height:6px;overflow:hidden}
+.progress-fill{background:linear-gradient(90deg,var(--accent),var(--accent2));height:100%;border-radius:20px;transition:width .4s ease}
+.gre-score-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px}
+.gre-scores{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:10px}
+.score-block{text-align:center}
+.score-num{font-family:var(--font-serif);font-size:28px;color:var(--accent2);line-height:1}
+.score-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+.score-target{font-size:11px;color:var(--teal)}
+.edit-scores-btn{background:none;border:1px solid var(--border2);color:var(--muted);border-radius:var(--radius-sm);padding:5px 12px;font-size:12px;cursor:pointer;font-family:var(--font-sans);margin-top:10px;transition:all .2s}
+.edit-scores-btn:hover{border-color:var(--accent);color:var(--accent)}
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-icon{font-size:32px;margin-bottom:10px;opacity:.4}
+.empty p{font-size:14px}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:flex-end;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-backdrop.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius) var(--radius) 0 0;padding:20px;width:100%;max-width:680px;transform:translateY(20px);transition:transform .2s;max-height:90vh;overflow-y:auto}
+.modal-backdrop.open .modal{transform:translateY(0)}
+.modal-title{font-family:var(--font-serif);font-size:20px;color:var(--accent2);margin-bottom:16px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;font-weight:500;letter-spacing:.03em}
+.field input,.field textarea,.field select{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:var(--font-sans);font-size:14px;padding:9px 12px;outline:none;transition:border-color .15s;appearance:none}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:80px}
+.field select option{background:var(--surface)}
+.modal-actions{display:flex;gap:10px;margin-top:18px}
+.btn-primary{flex:1;background:var(--accent);color:#0d0d0d;border:none;border-radius:var(--radius-sm);padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-sans);transition:background .15s}
+.btn-primary:hover{background:var(--accent2)}
+.btn-cancel{background:none;border:1px solid var(--border2);color:var(--muted);border-radius:var(--radius-sm);padding:11px 20px;font-size:14px;cursor:pointer;font-family:var(--font-sans);transition:all .15s}
+.btn-cancel:hover{border-color:var(--text);color:var(--text)}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:var(--radius-sm);padding:10px 20px;font-size:13px;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;z-index:200}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.chip{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s}
+.chip.active{background:rgba(200,169,110,.15);border-color:var(--accent);color:var(--accent2)}
+.chip:hover{border-color:var(--border2);color:var(--text)}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-top">
+    <div><div class="app-name">Max's MSc Roadmap <span>tracking the journey to grad school</span></div></div>
+    <button class="sync-btn" onclick="syncAll()">↻ Sync</button>
+  </div>
+  <div class="sync-status" id="sync-status">Loading...</div>
+</header>
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('skills')">Skills</button>
+  <button class="tab" onclick="switchTab('gre')">GRE Prep</button>
+  <button class="tab" onclick="switchTab('goals')">Goals</button>
+  <button class="tab" onclick="switchTab('notes')">Notes</button>
+</div>
+<main>
+  <div id="panel-skills" class="panel active">
+    <div id="skills-progress" class="progress-wrap"></div>
+    <div class="section-header"><div class="section-title">Skills to build</div><button class="add-btn" onclick="openModal('skill')">+ Add skill</button></div>
+    <div class="chip-row" id="skill-filter">
+      <div class="chip active" onclick="filterSkills('all',this)">All</div>
+      <div class="chip" onclick="filterSkills('technical',this)">Technical</div>
+      <div class="chip" onclick="filterSkills('domain',this)">Domain</div>
+      <div class="chip" onclick="filterSkills('strategic',this)">Strategic</div>
+    </div>
+    <div id="skills-list"></div>
+  </div>
+  <div id="panel-gre" class="panel">
+    <div class="gre-score-card">
+      <div class="section-title" style="font-size:16px;margin-bottom:4px">Practice scores</div>
+      <div class="gre-scores">
+        <div class="score-block"><div class="score-num" id="gre-verbal-disp">—</div><div class="score-lbl">Verbal</div><div class="score-target">Target 150+</div></div>
+        <div class="score-block"><div class="score-num" id="gre-quant-disp">—</div><div class="score-lbl">Quantitative</div><div class="score-target">Target 155+</div></div>
+        <div class="score-block"><div class="score-num" id="gre-awa-disp">—</div><div class="score-lbl">AWA</div><div class="score-target">Target 4.0+</div></div>
+      </div>
+      <button class="edit-scores-btn" onclick="openScoreModal()">Update scores</button>
+    </div>
+    <div id="gre-progress" class="progress-wrap"></div>
+    <div class="section-header"><div class="section-title">Study tasks</div><button class="add-btn" onclick="openModal('gre')">+ Add task</button></div>
+    <div class="chip-row" id="gre-filter">
+      <div class="chip active" onclick="filterGre('all',this)">All</div>
+      <div class="chip" onclick="filterGre('verbal',this)">Verbal</div>
+      <div class="chip" onclick="filterGre('quant',this)">Quant</div>
+      <div class="chip" onclick="filterGre('awa',this)">AWA</div>
+      <div class="chip" onclick="filterGre('general',this)">General</div>
+    </div>
+    <div id="gre-list"></div>
+  </div>
+  <div id="panel-goals" class="panel">
+    <div id="goals-progress" class="progress-wrap"></div>
+    <div class="section-header"><div class="section-title">MSc goals</div><button class="add-btn" onclick="openModal('goal')">+ Add goal</button></div>
+    <div id="goals-list"></div>
+  </div>
+  <div id="panel-notes" class="panel">
+    <div class="section-header"><div class="section-title">Notes & resources</div><button class="add-btn" onclick="openModal('note')">+ Add note</button></div>
+    <div id="notes-list"></div>
+  </div>
+</main>
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-title" id="modal-title">Add item</div>
+    <div id="modal-body"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModalDirect()">Cancel</button>
+      <button class="btn-primary" onclick="saveItem()">Save</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const SUPABASE_URL='https://uvqjswdfcixwktgvnzbq.supabase.co';
+const ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV2cWpzd2RmY2l4d2t0Z3ZuemJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE3MzIxOTgsImV4cCI6MjA1NzMwODE5OH0.gHcCDGVMfjUJaUgLBCCNJwOm0ukzD0LbdHFfcYEsqoI';
+const USER_ID='46ff1227-8bce-4138-9993-3b9f6f2508ef';
+const COL='max_roadmap_data';
+let state={skills:[],gre:[],goals:[],notes:[],gre_scores:{verbal:null,quant:null,awa:null}};
+let editingId=null,modalType=null,skillFilter='all',greFilter='all';
+const PRELOADED={
+  skills:[
+    {id:'s1',title:'Python for data analysis',category:'technical',resource:'Kaggle Python course (free)',notes:'pandas, matplotlib, scipy. Start with Kaggle 5-day challenge.',done:false},
+    {id:'s2',title:'R — go deeper',category:'technical',resource:'Tidyverse documentation',notes:'ggplot2, tidyverse, regression modeling. Already have basics from EST 304.',done:false},
+    {id:'s3',title:'Excel / Google Sheets',category:'technical',resource:'',notes:'Pivot tables, dashboards, data cleaning — expected in health policy roles.',done:false},
+    {id:'s4',title:'Health economics fundamentals',category:'domain',resource:'WHO open resources; Coursera: Health for All',notes:'Demand for health, insurance markets, cost-effectiveness analysis.',done:false},
+    {id:'s5',title:'Intro to epidemiology',category:'domain',resource:'Johns Hopkins Epidemiology on Coursera (audit free)',notes:'Incidence, prevalence, study designs. Complements economics background well.',done:false},
+    {id:'s6',title:'Academic writing and research',category:'domain',resource:'',notes:'Read and summarize one journal article per week. Target health economics journals.',done:false},
+    {id:'s7',title:'Seek a research assistantship',category:'strategic',resource:'',notes:'Approach lecturers on health-adjacent topics. Even one project strengthens application significantly.',done:false},
+    {id:'s8',title:'Undergraduate thesis on health topic',category:'strategic',resource:'',notes:'Healthcare access, insurance uptake, or nutrition policy in Ghana. Aligns with MSc goals.',done:false}
+  ],
+  gre:[
+    {id:'g1',title:'Understand the GRE structure',category:'general',resource:'ets.org/gre',notes:'Verbal (130-170), Quant (130-170), AWA (0-6). About 3h 45m total. Computer-adaptive.',done:false},
+    {id:'g2',title:'Build a 3-6 month study timeline',category:'general',resource:'',notes:'Target: 155+ Quant, 150+ Verbal, 4.0+ AWA. Quant leverages econometrics background.',done:false},
+    {id:'g3',title:'GRE Quantitative — core topics',category:'quant',resource:'Khan Academy (free)',notes:'Arithmetic, algebra, data analysis, geometry. EST 304 and ECO 320 give a real head start.',done:false},
+    {id:'g4',title:'GRE Quantitative — timed practice sets',category:'quant',resource:'ETS PowerPrep (free official)',notes:'Do timed practice. Aim for 155+ consistently before test day.',done:false},
+    {id:'g5',title:'GRE Verbal — vocabulary building',category:'verbal',resource:'Magoosh GRE Vocab Flashcards (free app)',notes:'Learn 10-15 new words daily. Focus on high-frequency GRE words.',done:false},
+    {id:'g6',title:'GRE Verbal — reading comprehension',category:'verbal',resource:'',notes:'Practice daily passages. Read for structure, not every word. Time yourself strictly.',done:false},
+    {id:'g7',title:'AWA — Issue essay practice',category:'awa',resource:'ETS pool of Issue topics (free)',notes:'Write one full essay per week. Practice structuring argument in 30 minutes.',done:false},
+    {id:'g8',title:'AWA — Argument essay practice',category:'awa',resource:'ETS pool of Argument topics (free)',notes:'Identify logical flaws. One per week alongside Issue essays.',done:false},
+    {id:'g9',title:'Take ETS PowerPrep full practice test',category:'general',resource:'ets.org/gre/test-takers/general/prepare/powerprep.html',notes:'Two free full tests from ETS. Take first one early to get a baseline score.',done:false},
+    {id:'g10',title:'Register for GRE in Ghana',category:'general',resource:'ets.org/gre/register',notes:'About $220 USD. Test centers in Accra. Register early. Send scores to FSU (5219) and FAMU (5215).',done:false}
+  ],
+  goals:[
+    {id:'goal1',title:'Improve GPA before graduation',category:'short',resource:'',notes:'Prioritize quantitative courses — signals readiness for grad programs.',done:false},
+    {id:'goal2',title:'Score 155+ Quantitative on GRE',category:'medium',resource:'',notes:'Leverages existing econometrics and stats background. Most achievable section.',done:false},
+    {id:'goal3',title:'Score 150+ Verbal on GRE',category:'medium',resource:'',notes:'Needs most study investment. Daily vocab and reading comprehension practice.',done:false},
+    {id:'goal4',title:'Complete health-adjacent undergraduate thesis',category:'medium',resource:'',notes:'Healthcare access, insurance uptake, or nutrition policy. Ties curriculum to MSc goals.',done:false},
+    {id:'goal5',title:'Apply to FSU MPH program',category:'long',resource:'https://health.fsu.edu/public-health/mph',notes:'Health Policy and Management concentration. Econometrics background is an asset. GRE code 5219.',done:false},
+    {id:'goal6',title:'Apply to FAMU MPH program',category:'long',resource:'https://famu.edu/mph',notes:'Health equity focus. Strong NGO and government pipeline. GRE code 5215.',done:false},
+    {id:'goal7',title:'Apply to FSU MS Economics',category:'long',resource:'https://economics.fsu.edu',notes:'Alternative path for deeper quant before health specialization. Good PhD pipeline.',done:false}
+  ],
+  notes:[
+    {id:'n1',title:'FSU MPH — why it fits',category:'plan',resource:'https://health.fsu.edu',notes:'Health Policy and Management track. Values quantitative background. Tallahassee. GRE code 5219.',done:false},
+    {id:'n2',title:'FAMU MPH — why it fits',category:'plan',resource:'https://famu.edu',notes:'Health equity and community health focus. Strong NGO ties. GRE code 5215.',done:false},
+    {id:'n3',title:'Best free GRE resources',category:'resource',resource:'',notes:'ETS PowerPrep (2 free full tests), Khan Academy (quant), Magoosh free blog and vocab app, ETS essay topic pools.',done:false},
+    {id:'n4',title:'Journals to read regularly',category:'resource',resource:'',notes:'Journal of Health Economics, Health Economics, World Bank Economic Review, African Development Review.',done:false},
+    {id:'n5',title:'MSc application checklist',category:'tip',resource:'',notes:'Strong GPA, GRE scores, 2-3 recommendation letters, personal statement, research experience. Some programs waive GRE — check each.',done:false}
+  ],
+  gre_scores:{verbal:null,quant:null,awa:null}
+};
+async function save(){
+  try{
+    const r=await fetch(SUPABASE_URL+'/rest/v1/user_data?user_id=eq.'+USER_ID,{method:'PATCH',headers:{apikey:ANON_KEY,Authorization:'Bearer '+ANON_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({[COL]:state})});
+    if(r.ok)setStatus('Saved '+fmt(new Date()),'ok');else setStatus('Save failed','err');
+  }catch(e){setStatus('Offline','err')}
+}
+async function load(){
+  setStatus('Loading...','');
+  try{
+    const r=await fetch(SUPABASE_URL+'/rest/v1/user_data?user_id=eq.'+USER_ID+'&select='+COL,{headers:{apikey:ANON_KEY,Authorization:'Bearer '+ANON_KEY}});
+    const rows=await r.json();
+    if(rows&&rows[0]&&rows[0][COL]&&rows[0][COL].skills&&rows[0][COL].skills.length>0){
+      const s=rows[0][COL];state.skills=s.skills||[];state.gre=s.gre||[];state.goals=s.goals||[];state.notes=s.notes||[];state.gre_scores=s.gre_scores||{verbal:null,quant:null,awa:null};
+      setStatus('Synced '+fmt(new Date()),'ok');
+    }else{
+      state=JSON.parse(JSON.stringify(PRELOADED));
+      await save();setStatus('Starter data loaded ✓','ok');
+    }
+  }catch(e){state=JSON.parse(JSON.stringify(PRELOADED));setStatus('Offline — starter data shown','')}
+  renderAll();
+}
+async function syncAll(){await load()}
+function setStatus(m,c){const el=document.getElementById('sync-status');el.textContent=m;el.className='sync-status '+c}
+function fmt(d){return d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+function switchTab(t){document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active',['skills','gre','goals','notes'][i]===t));document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('panel-'+t).classList.add('active')}
+function renderAll(){renderSkills();renderGre();renderGoals();renderNotes();renderScores()}
+function makeCard(item,type){const cc={technical:'tag-teal',domain:'tag-purple',strategic:'tag-coral',verbal:'tag-purple',quant:'tag-teal',awa:'tag-gold',general:'tag-green',short:'tag-teal',medium:'tag-gold',long:'tag-coral',resource:'tag-teal',tip:'tag-purple',plan:'tag-gold'};const col=cc[item.category]||'tag-green';const done=item.done?'done':'';return `<div class="card" id="card-${item.id}"><div class="card-top"><div class="card-check ${done}" onclick="toggleDone('${type}','${item.id}')"></div><div class="card-body"><div class="card-title ${done}">${esc(item.title)}</div><div class="card-meta">${item.category?`<span class="tag ${col}">${item.category}</span>`:''}${item.resource?`<span>📎 ${esc(item.resource)}</span>`:''}</div>${item.notes?`<div class="card-notes">${esc(item.notes)}</div>`:''}</div><div class="card-actions"><button class="icon-btn" onclick="openEdit('${type}','${item.id}')">✎</button><button class="icon-btn del" onclick="deleteItem('${type}','${item.id}')">✕</button></div></div></div>`}
+function prog(id,label,items,noun){const t=items.length,d=items.filter(x=>x.done).length;document.getElementById(id).innerHTML=t?`<div class="progress-label"><span>${label}</span><span>${d} / ${t} ${noun}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${Math.round(d/t*100)}%"></div></div>`:''}
+function renderSkills(){const l=document.getElementById('skills-list'),items=state.skills.filter(s=>skillFilter==='all'||s.category===skillFilter);l.innerHTML=items.length?items.map(s=>makeCard(s,'skill')).join(''):'<div class="empty"><div class="empty-icon">📚</div><p>No skills yet — add one to get started</p></div>';prog('skills-progress','Skills progress',state.skills,'completed')}
+function renderGre(){const l=document.getElementById('gre-list'),items=state.gre.filter(g=>greFilter==='all'||g.category===greFilter);l.innerHTML=items.length?items.map(g=>makeCard(g,'gre')).join(''):'<div class="empty"><div class="empty-icon">📝</div><p>No GRE tasks yet</p></div>';prog('gre-progress','GRE study progress',state.gre,'done')}
+function renderGoals(){const l=document.getElementById('goals-list');l.innerHTML=state.goals.length?state.goals.map(g=>makeCard(g,'goal')).join(''):'<div class="empty"><div class="empty-icon">🎯</div><p>No goals yet</p></div>';prog('goals-progress','Goals progress',state.goals,'achieved')}
+function renderNotes(){const l=document.getElementById('notes-list');l.innerHTML=state.notes.length?state.notes.map(n=>makeCard(n,'note')).join(''):'<div class="empty"><div class="empty-icon">📓</div><p>No notes yet</p></div>'}
+function renderScores(){const s=state.gre_scores;document.getElementById('gre-verbal-disp').textContent=s.verbal||'—';document.getElementById('gre-quant-disp').textContent=s.quant||'—';document.getElementById('gre-awa-disp').textContent=s.awa||'—'}
+function filterSkills(f,el){skillFilter=f;document.querySelectorAll('#skill-filter .chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderSkills()}
+function filterGre(f,el){greFilter=f;document.querySelectorAll('#gre-filter .chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderGre()}
+function toggleDone(type,id){const arr=state[typeKey(type)],item=arr.find(x=>x.id===id);if(item){item.done=!item.done;renderAll();save()}}
+function deleteItem(type,id){const k=typeKey(type);state[k]=state[k].filter(x=>x.id!==id);renderAll();save();toast('Deleted')}
+const SC=['technical','domain','strategic'],GC=['verbal','quant','awa','general'],GOC=['short','medium','long'],NC=['resource','tip','plan'];
+function catOpts(cats,val){return cats.map(c=>`<option value="${c}" ${val===c?'selected':''}>${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('')}
+function openModal(type,item){modalType=type;editingId=item?item.id:null;const labels={skill:'Skill',gre:'GRE Study Task',goal:'Goal',note:'Note'};document.getElementById('modal-title').textContent=(item?'Edit':'Add')+' '+labels[type];const cats=type==='skill'?SC:type==='gre'?GC:type==='goal'?GOC:NC;document.getElementById('modal-body').innerHTML=`<div class="field"><label>Title</label><input id="f-title" placeholder="e.g. Learn Python basics" value="${esc(item?.title||'')}"></div><div class="field"><label>Category</label><select id="f-cat">${catOpts(cats,item?.category)}</select></div><div class="field"><label>Resource / link (optional)</label><input id="f-resource" placeholder="e.g. Kaggle Python course" value="${esc(item?.resource||'')}"></div><div class="field"><label>Notes (optional)</label><textarea id="f-notes" placeholder="Details, links, progress…">${esc(item?.notes||'')}</textarea></div>`;document.getElementById('modal-backdrop').classList.add('open');setTimeout(()=>document.getElementById('f-title').focus(),100)}
+function openEdit(type,id){const item=state[typeKey(type)].find(x=>x.id===id);if(item)openModal(type,item)}
+function openScoreModal(){modalType='scores';editingId=null;const s=state.gre_scores;document.getElementById('modal-title').textContent='Update GRE scores';document.getElementById('modal-body').innerHTML=`<div class="field"><label>Verbal (130–170)</label><input id="f-verbal" type="number" min="130" max="170" placeholder="e.g. 152" value="${s.verbal||''}"></div><div class="field"><label>Quantitative (130–170)</label><input id="f-quant" type="number" min="130" max="170" placeholder="e.g. 158" value="${s.quant||''}"></div><div class="field"><label>AWA (0.0–6.0)</label><input id="f-awa" type="number" min="0" max="6" step="0.5" placeholder="e.g. 4.0" value="${s.awa||''}"></div>`;document.getElementById('modal-backdrop').classList.add('open')}
+function closeModal(e){if(e.target===document.getElementById('modal-backdrop'))closeModalDirect()}
+function closeModalDirect(){document.getElementById('modal-backdrop').classList.remove('open');editingId=null;modalType=null}
+function saveItem(){if(modalType==='scores'){state.gre_scores={verbal:document.getElementById('f-verbal').value||null,quant:document.getElementById('f-quant').value||null,awa:document.getElementById('f-awa').value||null};renderScores();save();closeModalDirect();toast('Scores updated');return}const title=document.getElementById('f-title').value.trim();if(!title){alert('Please enter a title');return}const item={id:editingId||Date.now().toString(36)+Math.random().toString(36).slice(2,6),title,category:document.getElementById('f-cat').value,resource:document.getElementById('f-resource').value.trim(),notes:document.getElementById('f-notes').value.trim(),done:false};const k=typeKey(modalType);if(editingId){const idx=state[k].findIndex(x=>x.id===editingId);if(idx>=0){item.done=state[k][idx].done;state[k][idx]=item}}else{state[k].push(item)}renderAll();save();closeModalDirect();toast(editingId?'Updated':'Added ✓')}
+function typeKey(t){return t==='skill'?'skills':t==='gre'?'gre':t==='goal'?'goals':'notes'}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2000)}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+load();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
+</script>
+</body>
+</html>
