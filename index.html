@@ -159,7 +159,7 @@ main{max-width:680px;margin:0 auto;padding:20px 24px 100px}
 <div class="toast" id="toast"></div>
 <script>
 const SUPABASE_URL='https://uvqjswdfcixwktgvnzbq.supabase.co';
-const ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV2cWpzd2RmY2l4d2t0Z3ZuemJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE3MzIxOTgsImV4cCI6MjA1NzMwODE5OH0.gHcCDGVMfjUJaUgLBCCNJwOm0ukzD0LbdHFfcYEsqoI';
+const ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV2cWpzd2RmY2l4d2t0Z3ZuemJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzNDExMzEsImV4cCI6MjA4NzkxNzEzMX0.SMB9fnxmLHFNTNkJk47UFpMqlccv_wvJOYAicvGxqoI';
 const USER_ID='46ff1227-8bce-4138-9993-3b9f6f2508ef';
 const COL='max_roadmap_data';
 let state={skills:[],gre:[],goals:[],notes:[],gre_scores:{verbal:null,quant:null,awa:null}};
@@ -207,14 +207,14 @@ const PRELOADED={
 };
 async function save(){
   try{
-    const r=await fetch(SUPABASE_URL+'/rest/v1/user_data?user_id=eq.'+USER_ID,{method:'PATCH',headers:{apikey:ANON_KEY,Authorization:'Bearer '+ANON_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({[COL]:state})});
+    const r=await fetch(SUPABASE_URL+'/rest/v1/user_data?id=eq.'+USER_ID,{method:'PATCH',headers:{apikey:ANON_KEY,Authorization:'Bearer '+ANON_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({[COL]:state})});
     if(r.ok)setStatus('Saved '+fmt(new Date()),'ok');else setStatus('Save failed','err');
   }catch(e){setStatus('Offline','err')}
 }
 async function load(){
   setStatus('Loading...','');
   try{
-    const r=await fetch(SUPABASE_URL+'/rest/v1/user_data?user_id=eq.'+USER_ID+'&select='+COL,{headers:{apikey:ANON_KEY,Authorization:'Bearer '+ANON_KEY}});
+    const r=await fetch(SUPABASE_URL+'/rest/v1/user_data?id=eq.'+USER_ID+'&select='+COL,{headers:{apikey:ANON_KEY,Authorization:'Bearer '+ANON_KEY}});
     const rows=await r.json();
     if(rows&&rows[0]&&rows[0][COL]&&rows[0][COL].skills&&rows[0][COL].skills.length>0){
       const s=rows[0][COL];state.skills=s.skills||[];state.gre=s.gre||[];state.goals=s.goals||[];state.notes=s.notes||[];state.gre_scores=s.gre_scores||{verbal:null,quant:null,awa:null};
